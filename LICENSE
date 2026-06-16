@@ -1,0 +1,32 @@
+=======================================================================
+            GestureX - Proprietary License & End User License Agreement
+                     版权所有与最终用户许可协议
+=======================================================================
+
+Copyright (c) 2026 Jacob & Gene. All rights reserved.
+
+【1. 知识产权与所有权 / Intellectual Property & Ownership】
+CN: 本项目（GestureX）的所有权、著作权、商标权、核心交互设计、源代码以及未来发布的编译产物（包括但不限于可执行文件）之全部知识产权，均归属于独立开发者 Jacob（jacob_ng@163.com）与 Gene（wjj_gene@163.com）（以下统称“权利人”）所有。
+EN: All intellectual property rights in this project (GestureX), including but not limited to ownership, copyrights, trademarks, core interaction designs, source code, and future compiled binaries (e.g., executable files), are exclusively owned by the independent developers Jacob (jacob_ng@163.com) and Gene (wjj_gene@163.com) (hereinafter referred to as the "Licensors").
+
+【2. 授权范围与版本声明 / Licensing & Versioning】
+CN: 
+- 基础版 (GestureX Core): 权利人授予用户一项有限的、不可转让的、非排他性的免费许可，仅限用于个人非商业目的之下载、安装与运行。
+- 进阶版 (GestureX Pro): 权利人明确保留推出商业收费版本、引入高级功能（如脚本宏、云同步）以及变更授权协议的最终权利。基础版的免费授权并不构成本软件后续任何升级或商业化产品的免费使用承诺。
+EN: 
+- GestureX Core: The Licensors hereby grant users a limited, non-transferable, non-exclusive, and free license to download, install, and use the software solely for personal, non-commercial purposes.
+- GestureX Pro: The Licensors expressly reserve the right to release commercial paid versions, introduce advanced features (e.g., script macros, cloud synchronization), and modify the license agreement in the future. The free license of the Core version does not constitute a commitment to free access to any subsequent upgrades or commercial products.
+
+【3. 使用限制 / Usage Restrictions】
+CN: 未经权利人明确的书面授权，严禁任何组织或个人对本软件的编译产物进行反编译、反汇编、恶意破译或实施任何逆向工程行为；严禁二次打包、捆绑销售；严禁剽窃本项目的核心交互逻辑用于任何同类竞争性项目或赛事。
+EN: Without the express written authorization of the Licensors, any organization or individual is strictly prohibited from reverse engineering, decompiling, disassembling, or modifying the compiled binaries of this software. Unauthorized redistribution, bundling, commercial sale, or plagiarizing the core interaction logic for competitive events or similar products is strictly prohibited.
+
+【4. 免责声明 / Disclaimer of Warranty】
+CN: 本软件按“现状”提供，不附带任何明示或暗示的担保。权利人不对用户因使用或无法使用本软件所导致的任何直接或间接损失承担任何法律责任。
+EN: THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE.
+
+【5. 管辖法律 / Governing Law】
+CN: 本协议适用中华人民共和国法律。因本协议引起的任何争议，双方应友好协商解决；协商不成的，应提交至权利人所在地有管辖权的人民法院诉讼解决。
+EN: This Agreement shall be governed by and construed in accordance with the laws of the People's Republic of China. Any dispute arising from this Agreement shall be settled through friendly negotiation; failing that, it shall be submitted to the competent people's court in the Licensors' location.
+
+=======================================================================
