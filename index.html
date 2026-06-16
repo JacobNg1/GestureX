@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GestureX - 创意提案 | TRAE AI 创造力大赛</title>
+  <style>
+    :root {
+      --bg: #050508;
+      --bg-elevated: #0a0a10;
+      --surface: rgba(255,255,255,0.04);
+      --surface-hover: rgba(255,255,255,0.08);
+      --border: rgba(255,255,255,0.08);
+      --primary: #00f0ff;
+      --secondary: #00ff88;
+      --accent-purple: #a855f7;
+      --text: #e8e8ef;
+      --text-dim: #8a8a9a;
+      --radius: 20px;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Background Grid */
+    .bg-grid {
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,240,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,240,255,0.025) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+      -webkit-mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .bg-glow {
+      position: fixed;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,240,255,0.08), transparent 70%);
+      top: -200px;
+      right: -200px;
+      pointer-events: none;
+      z-index: 0;
+      animation: floatGlow 8s ease-in-out infinite;
+    }
+
+    .bg-glow-2 {
+      position: fixed;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,255,136,0.06), transparent 70%);
+      bottom: -100px;
+      left: -100px;
+      pointer-events: none;
+      z-index: 0;
+      animation: floatGlow 10s ease-in-out infinite reverse;
+    }
+
+    @keyframes floatGlow {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(-30px, 30px) scale(1.1); }
+    }
+
+    /* Typography */
+    h1, h2, h3 { font-weight: 700; line-height: 1.2; }
+
+    .gradient-text {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .glow-text {
+      text-shadow: 0 0 40px rgba(0,240,255,0.2), 0 0 80px rgba(0,255,136,0.1);
+    }
+
+    /* Layout */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    section { padding: 100px 0; }
+
+    .section-title {
+      font-size: 2.8rem;
+      margin-bottom: 1rem;
+      letter-spacing: -1px;
+    }
+
+    .section-subtitle {
+      color: var(--text-dim);
+      font-size: 1.15rem;
+      max-width: 600px;
+      margin-bottom: 3rem;
+    }
+
+    /* Scroll Reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .reveal.active { opacity: 1; transform: translateY(0); }
+
+    /* Glass Card */
+    .glass-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      padding: 2.5rem;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .glass-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(0,240,255,0.3), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .glass-card:hover {
+      background: var(--surface-hover);
+      border-color: rgba(0,240,255,0.15);
+      transform: translateY(-6px);
+      box-shadow: 0 20px 60px rgba(0,240,255,0.08);
+    }
+
+    .glass-card:hover::before { opacity: 1; }
+
+    /* Badges */
+    .badge {
+      display: inline-block;
+      padding: 6px 14px;
+      border-radius: 100px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      border: 1px solid rgba(0,240,255,0.2);
+      color: var(--primary);
+      background: rgba(0,240,255,0.05);
+    }
+
+    /* Button */
+    .btn-glow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 32px;
+      border-radius: 100px;
+      border: none;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      color: #000;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      box-shadow: 0 0 20px rgba(0,240,255,0.2);
+      transition: var(--transition);
+      text-decoration: none;
+    }
+
+    .btn-glow:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 40px rgba(0,240,255,0.4);
+    }
+
+    /* Header / Hero */
+    header {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      padding: 120px 0;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 24px;
+      border-radius: 100px;
+      border: 1px solid rgba(0,240,255,0.15);
+      background: rgba(0,240,255,0.03);
+      color: var(--primary);
+      font-size: 0.95rem;
+      font-weight: 500;
+      margin-bottom: 2.5rem;
+      animation: fadeInDown 1s ease;
+    }
+
+    .hero-badge .dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--secondary);
+      box-shadow: 0 0 10px var(--secondary);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .hero-title {
+      font-size: clamp(3.5rem, 10vw, 7rem);
+      font-weight: 800;
+      letter-spacing: -4px;
+      margin-bottom: 1.5rem;
+      animation: fadeInUp 1s ease 0.2s both;
+    }
+
+    .hero-desc {
+      font-size: 1.3rem;
+      color: var(--text-dim);
+      max-width: 680px;
+      margin: 0 auto 3rem;
+      line-height: 1.7;
+      animation: fadeInUp 1s ease 0.4s both;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      animation: fadeInUp 1s ease 0.6s both;
+    }
+
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 32px;
+      border-radius: 100px;
+      border: 1px solid var(--border);
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--text);
+      background: transparent;
+      transition: var(--transition);
+      text-decoration: none;
+    }
+
+    .btn-outline:hover {
+      border-color: var(--primary);
+      background: rgba(0,240,255,0.05);
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Pain Points */
+    .pain-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+    }
+
+    .pain-card .icon {
+      width: 56px; height: 56px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(0,240,255,0.1), rgba(0,255,136,0.1));
+      border: 1px solid rgba(0,240,255,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .pain-card h3 {
+      font-size: 1.3rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .pain-card p { color: var(--text-dim); line-height: 1.7; }
+
+    /* Features */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+    }
+
+    .feature-card {
+      composes: glass-card;
+      padding: 2rem;
+    }
+
+    .feature-card .num {
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 1rem;
+      opacity: 0.6;
+    }
+
+    .feature-card h3 { font-size: 1.2rem; margin-bottom: 0.75rem; }
+    .feature-card p { color: var(--text-dim); font-size: 0.95rem; line-height: 1.6; }
+
+    /* Interactive Demo */
+    .demo-section { padding: 80px 0; }
+
+    .demo-wrapper {
+      position: relative;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(0,240,255,0.02), transparent);
+      overflow: hidden;
+    }
+
+    .demo-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 28px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.02);
+    }
+
+    .demo-title { font-weight: 600; display: flex; align-items: center; gap: 10px; }
+
+    .demo-status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9rem;
+      color: var(--text-dim);
+    }
+
+    .demo-status .indicator {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--secondary);
+      box-shadow: 0 0 8px var(--secondary);
+    }
+
+    #gestureCanvas {
+      display: block;
+      width: 100%;
+      height: 420px;
+      cursor: crosshair;
+      background: radial-gradient(ellipse at center, rgba(0,240,255,0.02) 0%, transparent 70%);
+    }
+
+    .demo-hint {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      text-align: center;
+      color: var(--text-dim);
+      transition: opacity 0.3s;
+    }
+
+    .demo-hint.hidden { opacity: 0; }
+
+    .demo-hint .mouse-icon {
+      width: 48px; height: 48px;
+      border: 2px solid var(--text-dim);
+      border-radius: 16px 16px 8px 8px;
+      margin: 0 auto 12px;
+      position: relative;
+    }
+
+    .demo-hint .mouse-icon::after {
+      content: '';
+      position: absolute;
+      top: 10px; left: 50%;
+      transform: translateX(-50%);
+      width: 4px; height: 10px;
+      background: var(--text-dim);
+      border-radius: 2px;
+      animation: clickAnim 1.5s infinite;
+    }
+
+    @keyframes clickAnim {
+      0%, 100% { transform: translateX(-50%) translateY(0); opacity: 1; }
+      50% { transform: translateX(-50%) translateY(6px); opacity: 0.5; }
+    }
+
+    /* Gesture Result Overlay */
+    .gesture-result {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%) scale(0.8);
+      background: rgba(5,5,8,0.9);
+      border: 1px solid rgba(0,240,255,0.2);
+      border-radius: 24px;
+      padding: 32px 48px;
+      text-align: center;
+      pointer-events: none;
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+      backdrop-filter: blur(20px);
+      z-index: 10;
+    }
+
+    .gesture-result.show {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .gesture-result .gesture-icon {
+      font-size: 3rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 8px;
+    }
+
+    .gesture-result .gesture-label {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .gesture-result .gesture-action {
+      font-size: 0.9rem;
+      color: var(--text-dim);
+    }
+
+    /* Ripple Effect */
+    .ripple {
+      position: absolute;
+      border-radius: 50%;
+      border: 2px solid var(--primary);
+      transform: translate(-50%, -50%) scale(0);
+      animation: rippleAnim 0.8s ease-out forwards;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    @keyframes rippleAnim {
+      to { transform: translate(-50%, -50%) scale(4); opacity: 0; }
+    }
+
+    /* Tech Stack */
+    .tech-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .tech-item {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 24px 28px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      transition: var(--transition);
+    }
+
+    .tech-item:hover {
+      border-color: rgba(0,240,255,0.15);
+      background: var(--surface-hover);
+    }
+
+    .tech-icon {
+      width: 48px; height: 48px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(0,240,255,0.1), rgba(168,85,247,0.1));
+      border: 1px solid rgba(0,240,255,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+
+    .tech-content h4 { font-size: 1.1rem; margin-bottom: 4px; }
+    .tech-content p { color: var(--text-dim); font-size: 0.95rem; }
+
+    /* Business Timeline */
+    .timeline {
+      position: relative;
+      padding-left: 32px;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 6px;
+      top: 8px;
+      bottom: 8px;
+      width: 2px;
+      background: linear-gradient(180deg, var(--primary), var(--secondary));
+      border-radius: 2px;
+    }
+
+    .timeline-item {
+      position: relative;
+      padding-bottom: 40px;
+    }
+
+    .timeline-item:last-child { padding-bottom: 0; }
+
+    .timeline-dot {
+      position: absolute;
+      left: -32px;
+      top: 4px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--bg);
+      border: 2px solid var(--primary);
+      box-shadow: 0 0 12px rgba(0,240,255,0.2);
+    }
+
+    .timeline-item.active .timeline-dot {
+      background: var(--primary);
+      box-shadow: 0 0 16px var(--primary);
+    }
+
+    .timeline-phase {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 8px;
+      background: rgba(0,240,255,0.08);
+      color: var(--primary);
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .timeline-item h3 { font-size: 1.3rem; margin-bottom: 8px; }
+    .timeline-item p { color: var(--text-dim); line-height: 1.7; }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px 0;
+      text-align: center;
+      color: var(--text-dim);
+      font-size: 0.9rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      section { padding: 60px 0; }
+      .section-title { font-size: 2rem; }
+      .hero-title { font-size: 3.5rem; }
+      .hero-actions { flex-direction: column; }
+      .pain-grid, .feature-grid { grid-template-columns: 1fr; }
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: rgba(0,240,255,0.15); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(0,240,255,0.3); }
+  </style>
+</head>
+<body>
+
+  <!-- Background Effects -->
+  <div class="bg-grid"></div>
+  <div class="bg-glow"></div>
+  <div class="bg-glow-2"></div>
+
+  <!-- Hero Section -->
+  <header id="hero">
+    <div class="container">
+      <div class="hero-badge">
+        <span class="dot"></span>
+        <span>TRAE AI 创造力大赛参赛作品</span>
+      </div>
+      <h1 class="hero-title gradient-text glow-text">GestureX</h1>
+      <p class="hero-desc">
+        为 Windows 鼠标右键注入「手势灵魂」。<br>
+        在右键点击与拖动之间，开辟一条毫秒级的高效交互通道。
+      </p>
+      <div class="hero-actions">
+        <a href="#demo" class="btn-glow">体验交互模拟</a>
+        <a href="#features" class="btn-outline">查看核心功能</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Pain Points -->
+  <section id="pain">
+    <div class="container">
+      <h2 class="section-title gradient-text reveal">核心痛点</h2>
+      <p class="section-subtitle reveal">Windows 生态中，鼠标右键的能力被严重低估，用户与系统双双陷入了「单点即满足」的低效惯性。</p>
+      <div class="pain-grid">
+        <div class="glass-card pain-card reveal">
+          <div class="icon">🖱️</div>
+          <h3>交互维度单一</h3>
+          <p>数十年来，Windows 用户对右键的操作习惯被锁定在「单点打开菜单」。右键拖动这一天然、顺滑的交互维度，在系统层面长期缺位。</p>
+        </div>
+        <div class="glass-card pain-card reveal">
+          <div class="icon">⏱️</div>
+          <h3>效率存在盲区</h3>
+          <p>快速启动软件、执行系统命令通常依赖键盘快捷键或层层点击。对于「手不离鼠」的用户，缺乏一种零记忆的快捷通道。</p>
+        </div>
+        <div class="glass-card pain-card reveal">
+          <div class="icon">🎮</div>
+          <h3>现有工具冲突多</h3>
+          <p>市面上部分鼠标手势工具强行接管所有右键操作，导致在游戏、设计软件等专业场景中出现严重冲突，用户体验支离破碎。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section id="features">
+    <div class="container">
+      <h2 class="section-title gradient-text reveal">核心功能</h2>
+      <p class="section-subtitle reveal">以像素级精度与系统级视野，重新定义鼠标右键的生产力边界。</p>
+      <div class="feature-grid">
+        <div class="glass-card feature-card reveal">
+          <div class="num">01</div>
+          <h3>智能识别单点与拖动</h3>
+          <p>精准区分「右键单点」与「右键拖动」。若单点，正常弹出系统菜单，毫无违和感；若拖动，立即进入手势识别模式。</p>
+        </div>
+        <div class="glass-card feature-card reveal">
+          <div class="num">02</div>
+          <h3>轨迹唤醒快捷方式</h3>
+          <p>设定防误触像素阈值，支持 L型、Z型、直线下划、圆形等自定义轨迹。划出即唤醒，零延迟响应常用软件与系统命令。</p>
+        </div>
+        <div class="glass-card feature-card reveal">
+          <div class="num">03</div>
+          <h3>全局覆盖与黑白名单</h3>
+          <p>作为系统级工具全局运行，同时内置精细化的应用黑/白名单机制，彻底避免在游戏、渲染、设计等专业软件内发生冲突。</p>
+        </div>
+        <div class="glass-card feature-card reveal">
+          <div class="num">04</div>
+          <h3>极低资源占用</h3>
+          <p>底层采用原生 API 驱动，内存占用控制在个位数 MB。静默运行，不给系统增添一丝负担。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Demo -->
+  <section id="demo" class="demo-section">
+    <div class="container">
+      <h2 class="section-title gradient-text reveal">交互模拟</h2>
+      <p class="section-subtitle reveal">在下方画板中按住鼠标右键拖动，体验 GestureX 的手势识别与快捷唤醒。</p>
+
+      <div class="demo-wrapper reveal">
+        <div class="demo-header">
+          <div class="demo-title">
+            <span style="color: var(--primary);">◈</span> GestureX Engine
+          </div>
+          <div class="demo-status">
+            <span class="indicator"></span>
+            <span id="statusText">等待输入...</span>
+          </div>
+        </div>
+
+        <div style="position: relative;">
+          <canvas id="gestureCanvas"></canvas>
+          <div class="demo-hint" id="demoHint">
+            <div class="mouse-icon"></div>
+            <div>按住<strong style="color: var(--primary);">鼠标右键</strong>拖动涂鸦</div>
+            <div style="font-size: 0.85rem; margin-top: 4px;">支持 ↓ → L Z 等轨迹</div>
+          </div>
+          <div class="gesture-result" id="gestureResult">
+            <div class="gesture-icon" id="resultIcon">L</div>
+            <div class="gesture-label" id="resultLabel">L 型手势</div>
+            <div class="gesture-action" id="resultAction">已唤醒：启动浏览器</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tech Stack -->
+  <section id="tech">
+    <div class="container">
+      <h2 class="section-title gradient-text reveal">技术路线</h2>
+      <p class="section-subtitle reveal">以原生 Windows 技术栈为根基，追求极致性能与零侵入体验。</p>
+      <div class="tech-list reveal">
+        <div class="tech-item">
+          <div class="tech-icon">⚡</div>
+          <div class="tech-content">
+            <h4>全局鼠标钩子 (SetWindowsHookEx)</h4>
+            <p>基于 C# .NET / WPF 调用 Win32 API 注册底层鼠标钩子，捕获全局右键事件，确保在任何应用上层都能即时响应。</p>
+          </div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-icon">🔧</div>
+          <div class="tech-content">
+            <h4>轻量化底层驱动</h4>
+            <p>核心识别引擎采用向量化轨迹分析算法，路径采样、降噪、方向量化一气呵成，计算开销趋近于零。</p>
+          </div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-icon">🛡️</div>
+          <div class="tech-content">
+            <h4>应用级白名单过滤</h4>
+            <p>通过进程句柄比对与窗口焦点检测，毫秒级判定当前前台应用，自动禁用或启用钩子，保障游戏全屏与专业软件零冲突。</p>
+          </div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-icon">💾</div>
+          <div class="tech-content">
+            <h4>本地配置持久化</h4>
+            <p>手势与快捷方式映射采用 JSON 本地存储，启动时热加载，支持用户深度自定义与配置迁移。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Business Plan -->
+  <section id="business">
+    <div class="container">
+      <h2 class="section-title gradient-text reveal">商业规划</h2>
+      <p class="section-subtitle reveal">借鉴 Coodesker 的极客口碑路线，以「免费获客 - Pro 增值 - 生态收编」三步走。</p>
+      <div class="glass-card reveal" style="padding: 40px;">
+        <div class="timeline">
+          <div class="timeline-item active">
+            <div class="timeline-dot"></div>
+            <span class="timeline-phase">第一代 · 口碑期</span>
+            <h3>纯净免费，闭源托管</h3>
+            <p>主打极致纯净、零广告、零捆绑。通过 GitHub / 小众软件社区等极客渠道分发，积累原始核心用户与口碑。此阶段核心目标是验证产品价值与打磨手势识别准确率。</p>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <span class="timeline-phase">第二代 · 变现期</span>
+            <h3>Pro 商业版发布</h3>
+            <p>推出 GestureX Pro，加入高级脚本宏（AutoHotkey 级自动化）、云端配置同步、多设备协同、数据统计面板等付费功能。采用买断制或低价订阅制。</p>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <span class="timeline-phase">远景 · 生态期</span>
+            <h3>争取大厂生态收编</h3>
+            <p>在积累百万级用户与极佳口碑后，积极接触微软 PowerToys 等官方效率工具生态，争取作为「鼠标手势增强」模块被收编，实现产品价值的最大化释放。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>GestureX Project · TRAE AI 创造力大赛参赛作品</p>
+      <p style="margin-top: 4px; opacity: 0.6;">System-level Right-click Gesture Awakening Tool for Windows</p>
+    </div>
+  </footer>
+
+  <script>
+    // ===================== Scroll Reveal =====================
+    const reveals = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    reveals.forEach(el => revealObserver.observe(el));
+
+    // ===================== Gesture Demo =====================
+    const canvas = document.getElementById('gestureCanvas');
+    const ctx = canvas.getContext('2d');
+    const demoHint = document.getElementById('demoHint');
+    const gestureResult = document.getElementById('gestureResult');
+    const statusText = document.getElementById('statusText');
+    const resultIcon = document.getElementById('resultIcon');
+    const resultLabel = document.getElementById('resultLabel');
+    const resultAction = document.getElementById('resultAction');
+
+    let isDrawing = false;
+    let points = [];
+    let particles = [];
+    let animId = null;
+
+    function resizeCanvas() {
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = rect.width * window.devicePixelRatio;
+      canvas.height = rect.height * window.devicePixelRatio;
+      ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+      canvas.style.width = rect.width + 'px';
+      canvas.style.height = rect.height + 'px';
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    // Prevent context menu on canvas area
+    canvas.addEventListener('contextmenu', e => e.preventDefault());
+
+    function getPos(e) {
+      const rect = canvas.getBoundingClientRect();
+      return {
+        x: (e.clientX - rect.left),
+        y: (e.clientY - rect.top)
+      };
+    }
+
+    canvas.addEventListener('mousedown', e => {
+      if (e.button !== 2) return;
+      isDrawing = true;
+      points = [];
+      const pos = getPos(e);
+      points.push(pos);
+      demoHint.classList.add('hidden');
+      gestureResult.classList.remove('show');
+      statusText.textContent = '识别中...';
+      ctx.clearRect(0, 0, canvas.width / window.devicePixelRatio, canvas.height / window.devicePixelRatio);
+      ctx.beginPath();
+      ctx.moveTo(pos.x, pos.y);
+      ctx.strokeStyle = '#00f0ff';
+      ctx.lineWidth = 3;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.shadowColor = '#00f0ff';
+      ctx.shadowBlur = 12;
+    });
+
+    canvas.addEventListener('mousemove', e => {
+      if (!isDrawing || e.buttons !== 2) return;
+      const pos = getPos(e);
+      points.push(pos);
+      ctx.lineTo(pos.x, pos.y);
+      ctx.stroke();
+    });
+
+    canvas.addEventListener('mouseup', e => {
+      if (!isDrawing || e.button !== 2) return;
+      isDrawing = false;
+      ctx.shadowBlur = 0;
+      const gesture = recognizeGesture(points);
+      showResult(gesture, getPos(e));
+    });
+
+    canvas.addEventListener('mouseleave', () => {
+      if (isDrawing) {
+        isDrawing = false;
+        ctx.shadowBlur = 0;
+      }
+    });
+
+    // Gesture Recognition Engine
+    function recognizeGesture(pts) {
+      if (pts.length < 8) return 'unknown';
+
+      const xs = pts.map(p => p.x);
+      const ys = pts.map(p => p.y);
+      const minX = Math.min(...xs), maxX = Math.max(...xs);
+      const minY = Math.min(...ys), maxY = Math.max(...ys);
+      const width = maxX - minX;
+      const height = maxY - minY;
+      const start = pts[0];
+      const end = pts[pts.length - 1];
+
+      // Helper: angle of segment
+      function angle(p1, p2) {
+        return Math.atan2(p2.y - p1.y, p2.x - p1.x);
+      }
+
+      // Helper: direction category: R(0), D(1), L(2), U(3)
+      function dir(p1, p2) {
+        const a = angle(p1, p2);
+        const deg = a * 180 / Math.PI;
+        if (deg >= -45 && deg < 45) return 0; // right
+        if (deg >= 45 && deg < 135) return 1; // down
+        if (deg >= 135 || deg < -135) return 2; // left
+        return 3; // up
+      }
+
+      // Split into 3 segments
+      const n = pts.length;
+      const seg1 = pts.slice(0, Math.floor(n / 3));
+      const seg2 = pts.slice(Math.floor(n / 3), Math.floor(2 * n / 3));
+      const seg3 = pts.slice(Math.floor(2 * n / 3));
+
+      const d1 = dir(seg1[0], seg1[seg1.length - 1]);
+      const d2 = dir(seg2[0], seg2[seg2.length - 1]);
+      const d3 = dir(seg3[0], seg3[seg3.length - 1]);
+
+      // Check straight lines first
+      const isHoriz = width > height * 2;
+      const isVert = height > width * 2;
+
+      if (isVert && start.y < end.y) return 'down';
+      if (isVert && start.y > end.y) return 'up';
+      if (isHoriz && start.x < end.x) return 'right';
+      if (isHoriz && start.x > end.x) return 'left';
+
+      // Check L: down then right (or right then down)
+      if ((d1 === 1 && d2 === 0) || (d1 === 0 && d2 === 1)) return 'L';
+      if ((d1 === 1 && d3 === 0) || (d1 === 0 && d3 === 1)) return 'L';
+
+      // Check Z: right -> down-left -> right  (0,2,0) or (0,1,0) roughly
+      if ((d1 === 0 || d1 === 3) && (d2 === 1 || d2 === 2) && (d3 === 0 || d3 === 3)) return 'Z';
+      if (d1 === 0 && d3 === 0 && d2 !== 0 && d2 !== 3) return 'Z';
+
+      // Check circle: start and end close, path long
+      const distStartEnd = Math.hypot(end.x - start.x, end.y - start.y);
+      const pathLen = pts.reduce((sum, p, i) => i === 0 ? 0 : sum + Math.hypot(p.x - pts[i-1].x, p.y - pts[i-1].y), 0);
+      if (distStartEnd < Math.max(width, height) * 0.4 && pathLen > Math.max(width, height) * 2.5) {
+        return 'circle';
+      }
+
+      // Diagonal fallback
+      if (d1 === 1) return 'down';
+      if (d1 === 0) return 'right';
+      return 'unknown';
+    }
+
+    const gestureMap = {
+      down: { icon: '↓', label: '直线下划', action: '已唤醒：显示桌面' },
+      up: { icon: '↑', label: '直线上划', action: '已唤醒：锁定屏幕' },
+      right: { icon: '→', label: '直线右划', action: '已唤醒：下一首音乐' },
+      left: { icon: '←', label: '直线左划', action: '已唤醒：上一首音乐' },
+      L: { icon: 'L', label: 'L 型手势', action: '已唤醒：启动浏览器' },
+      Z: { icon: 'Z', label: 'Z 型手势', action: '已唤醒：启动终端' },
+      circle: { icon: 'O', label: '圆形手势', action: '已唤醒：打开设置' },
+      unknown: { icon: '?', label: '未知轨迹', action: '未匹配快捷方式' }
+    };
+
+    function showResult(gesture, pos) {
+      const info = gestureMap[gesture] || gestureMap.unknown;
+      resultIcon.textContent = info.icon;
+      resultLabel.textContent = info.label;
+      resultAction.textContent = info.action;
+      gestureResult.classList.add('show');
+      statusText.textContent = gesture === 'unknown' ? '未识别' : '唤醒成功';
+
+      // Ripple
+      createRipple(pos.x, pos.y);
+
+      // Particles
+      spawnParticles(pos.x, pos.y, gesture === 'unknown' ? '#ff5577' : '#00f0ff');
+
+      // Auto hide
+      setTimeout(() => {
+        gestureResult.classList.remove('show');
+        statusText.textContent = '等待输入...';
+        demoHint.classList.remove('hidden');
+        ctx.clearRect(0, 0, canvas.width / window.devicePixelRatio, canvas.height / window.devicePixelRatio);
+      }, 2200);
+    }
+
+    function createRipple(x, y) {
+      const ripple = document.createElement('div');
+      ripple.className = 'ripple';
+      ripple.style.left = x + 'px';
+      ripple.style.top = y + 'px';
+      ripple.style.width = '40px';
+      ripple.style.height = '40px';
+      canvas.parentElement.appendChild(ripple);
+      setTimeout(() => ripple.remove(), 800);
+    }
+
+    function spawnParticles(x, y, color) {
+      for (let i = 0; i < 40; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const speed = Math.random() * 3 + 1;
+        particles.push({
+          x, y,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          life: 1,
+          decay: Math.random() * 0.02 + 0.015,
+          color,
+          size: Math.random() * 2 + 1
+        });
+      }
+      if (!animId) animateParticles();
+    }
+
+    function animateParticles() {
+      const w = canvas.width / window.devicePixelRatio;
+      const h = canvas.height / window.devicePixelRatio;
+      // Save current canvas content (the gesture line) so we can redraw it
+      // Actually we just clear and redraw lines + particles
+      ctx.clearRect(0, 0, w, h);
+
+      // Redraw gesture path faintly
+      if (points.length > 1) {
+        ctx.beginPath();
+        ctx.moveTo(points[0].x, points[0].y);
+        for (let i = 1; i < points.length; i++) ctx.lineTo(points[i].x, points[i].y);
+        ctx.strokeStyle = 'rgba(0,240,255,0.2)';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+      }
+
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+        p.life -= p.decay;
+        p.vy += 0.05; // gravity
+
+        ctx.globalAlpha = Math.max(0, p.life);
+        ctx.fillStyle = p.color;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fill();
+
+        if (p.life <= 0) particles.splice(i, 1);
+      }
+      ctx.globalAlpha = 1;
+
+      if (particles.length > 0) {
+        animId = requestAnimationFrame(animateParticles);
+      } else {
+        animId = null;
+      }
+    }
+
+    // Also prevent context menu on the whole demo wrapper to be safe
+    document.querySelector('.demo-wrapper').addEventListener('contextmenu', e => {
+      if (e.target.closest('#gestureCanvas')) e.preventDefault();
+    });
+  </script>
+</body>
+</html>
