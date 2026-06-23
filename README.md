@@ -12,21 +12,7 @@
   <tr>
     <td align="center">
       <a href="https://www.bilibili.com/video/BV1bGj16SEKh/" target="_blank">
-        <picture>
-          <img alt="GestureX v0.1.1-alpha 演示" src="assert/images/轮盘UI.png" width="100%" />
-        </picture>
-        <div style="
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          width: 80px;  /* 按钮大小 */
-          height: 80px;
-          background-image: url('data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTI4IDEyOCI+PHBhdGggZD0iTTEyOCA2NEMxMjggOTkuMyA5OS4zIDEyOCA2NCAxMjhDMjguNyAxMjggMCA5OS4zIDAgNjRDMCAyOC43IDI4LjcgMCA2NCAwQzk5LjMgMCAxMjggMjguNyAxMjggNjRNNDQgMzZMODQgNjRMNDQgOTJWMzZWMzZaIiBmaWxsPSIjRkZGRkZGIiBmaWxsLW9wYWNpdHk9IjAuNSI+PC9wYXRoPjwvc3ZnPg==');
-          background-size: contain;
-          background-repeat: no-repeat;
-          pointer-events: none; /* 让鼠标直接点到下面的链接 */
-        "></div>
+        <img alt="GestureX v0.1.1-alpha 演示" src="assert/images/轮盘UI_play.png" width="100%" />
       </a>
     </td>
   </tr>
