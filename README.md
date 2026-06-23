@@ -20,6 +20,8 @@ Windows 用户的鼠标右键长久以来被“单点弹出菜单”所禁锢。
 
 ## 🚀 最新版本特性：v0.1.1-alpha
 
+> 📦 **软件下载**：[Release](https://github.com/JacobNg1/GestureX/releases)
+
 本版本针对 Windows 底层最棘手的“全局改键冲突与系统级菜单拦截”深水区难题进行了核心技术破局，实现：
 
 1. **零独占 Win 键**：键盘钩子完全不拦截物理 Win 键的 down/up 状态，完美透传。`Win+E`、`Win+D` 等系统原生组合快捷键 100% 照常生效。
